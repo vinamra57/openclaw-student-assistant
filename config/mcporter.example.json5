@@ -1,0 +1,52 @@
+// mcporter configuration — MCP server connections for the student agent.
+// mcporter is OpenClaw's bridge to MCP servers.
+//
+// Each entry defines an MCP server the agent can call as tools.
+// Docs: https://github.com/steipete/mcporter
+{
+  "servers": {
+    // ─── Shared Virtual TA (ChatCSE) ───
+    // One per course. Provides course content Q&A, lecture search, admin answers.
+    "virtual-ta-cse452": {
+      "transport": "http",
+      "url": "${VIRTUAL_TA_URL}/mcp",
+      // "auth": { "type": "bearer", "token": "${VIRTUAL_TA_TOKEN}" },
+      "description": "CSE 452 Virtual TA — course content and admin questions"
+    },
+
+    // ─── EdStem Personal ───
+    // Runs locally on the student's VM. Uses student's own Ed API token.
+    "edstem": {
+      "transport": "stdio",
+      "command": "python",
+      "args": ["-m", "mcp_servers.edstem.server"],
+      "env": {
+        "ED_API_TOKEN": "${ED_API_TOKEN}",
+        "ED_COURSE_ID": "${ED_COURSE_ID}"
+      },
+      "description": "Personal Ed Discussion — search, announcements, unread threads"
+    },
+
+    // ─── Composio Tools ───
+    // Provides Canvas LMS, Google Workspace, Notion, web browsing.
+    // Composio handles per-user OAuth and token refresh.
+    "composio": {
+      "transport": "http",
+      "url": "https://mcp.composio.dev/composio/tools",
+      // "auth": { "type": "header", "name": "x-api-key", "value": "${COMPOSIO_API_KEY}" },
+      "description": "Personal tools — Canvas, Google, Notion"
+    },
+
+    // ─── Gradescope (optional, best-effort) ───
+    // "gradescope": {
+    //   "transport": "stdio",
+    //   "command": "python",
+    //   "args": ["-m", "mcp_servers.gradescope.server"],
+    //   "env": {
+    //     "GRADESCOPE_EMAIL": "${GRADESCOPE_EMAIL}",
+    //     "GRADESCOPE_PASSWORD": "${GRADESCOPE_PASSWORD}"
+    //   },
+    //   "description": "Gradescope — grades and assignments (best-effort)"
+    // }
+  }
+}

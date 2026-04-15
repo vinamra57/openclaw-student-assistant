@@ -1,0 +1,38 @@
+// OpenClaw configuration for the Student Assistant
+// Copy to ~/.openclaw/openclaw.json and fill in values.
+//
+// Docs: https://github.com/openclaw/openclaw
+{
+  // ─── Model Provider ───
+  "provider": {
+    "type": "anthropic",
+    "apiKey": "${ANTHROPIC_API_KEY}"
+  },
+
+  // ─── Discord Channel ───
+  "channels": {
+    "discord": {
+      "token": "${DISCORD_BOT_TOKEN}",
+      "dmPolicy": "allow",       // Allow DMs from paired users
+      "groupPolicy": "ignore"    // Ignore server messages (DM-only agent)
+    }
+  },
+
+  // ─── Agent Configuration ───
+  "agents": {
+    "default": {
+      "model": "claude-sonnet-4-6",
+      "persona": "~/.openclaw/SOUL.md",
+      "tools": {
+        // MCP tools are registered via mcporter — see mcporter.example.json5
+        "allowAll": true
+      }
+    }
+  },
+
+  // ─── Gateway ───
+  "gateway": {
+    "port": 18789,
+    "bind": "127.0.0.1"
+  }
+}
