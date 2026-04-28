@@ -1,0 +1,10 @@
+{
+  "name": "virtual-ta-bridge",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Stdio-to-HTTP MCP bridge for the ChatCSE Virtual TA",
+  "main": "bridge.mjs",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
