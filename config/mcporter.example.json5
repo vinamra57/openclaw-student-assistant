@@ -9,7 +9,7 @@
     // One per course. Provides course content Q&A, lecture search, admin answers.
     "virtual-ta-cse452": {
       "transport": "http",
-      "url": "${VIRTUAL_TA_URL}/mcp",
+      "url": "https://backend-production-45b0.up.railway.app/mcp",
       // "auth": { "type": "bearer", "token": "${VIRTUAL_TA_TOKEN}" },
       "description": "CSE 452 Virtual TA — course content and admin questions"
     },
