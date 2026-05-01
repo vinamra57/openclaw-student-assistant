@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Provision a GCP VM for a student's OpenClaw agent.
-# Extends the base OpenClaw provisioning with student-assistant-specific setup.
+# Provision a GCP VM for a student's NanoClaw agent.
+# Extends the base NanoClaw provisioning with student-assistant-specific setup.
 #
 # Usage:
 #   ./provision-student.sh \

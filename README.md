@@ -1,8 +1,8 @@
-# OpenClaw Student Assistant
+# NanoClaw Student Assistant
 
-A personal AI agent system for university students, built on [OpenClaw](https://github.com/openclaw/openclaw) and integrated with the [ChatCSE](https://github.com/vinamra/ChatCSE) Virtual TA.
+A personal AI agent system for university students, built on [NanoClaw](https://github.com/qwibitai/nanoclaw) and integrated with the [ChatCSE](https://github.com/vinamra/ChatCSE) Virtual TA.
 
-Each student gets their own OpenClaw agent instance, accessible via Discord DM, that serves as a unified interface to all their academic tools and resources.
+Each student gets their own NanoClaw agent instance, accessible via Discord DM, that serves as a unified interface to all their academic tools and resources.
 
 ## Architecture
 
@@ -10,7 +10,7 @@ Each student gets their own OpenClaw agent instance, accessible via Discord DM, 
 Student (Discord DM)
        |
        v
-OpenClaw Agent (per-student VM)
+NanoClaw Agent (per-student VM)
   |-- Virtual TA (shared, via MCP)     → Course content Q&A, lecture slides, admin questions
   |-- Canvas LMS (via Composio)        → Grades, assignments, calendar
   |-- Google Workspace (via Composio)  → Docs, Calendar, Drive, Gmail
@@ -29,7 +29,7 @@ Shared Virtual TA (one per course)
 ├── mcp_servers/          # Custom MCP servers (Python)
 │   ├── edstem/           # EdStem personal MCP server
 │   └── gradescope/       # Gradescope MCP server (best-effort)
-├── config/               # OpenClaw and mcporter configuration templates
+├── config/               # NanoClaw and mcporter configuration templates
 ├── provisioning/         # GCP VM provisioning and setup scripts
 ├── tests/                # Test suite
 └── docs/                 # Documentation
@@ -49,4 +49,4 @@ See [docs/onboarding.md](docs/onboarding.md) for the full setup guide.
 ## Related Repositories
 
 - **[ChatCSE](https://github.com/vinamra/ChatCSE)** — Shared Virtual TA backend (FastAPI + RAG pipelines)
-- **[OpenClaw](https://github.com/openclaw/openclaw)** — Personal AI agent framework
+- **[NanoClaw](https://github.com/qwibitai/nanoclaw)** — Personal AI agent framework

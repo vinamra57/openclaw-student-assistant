@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Runs ON the VM (called by provision-student.sh via SSH).
-# Installs OpenClaw, configures the student agent, and starts the gateway.
+# Installs NanoClaw, configures the student agent, and starts the gateway.
 #
 # Usage: ./setup-student.sh <DISCORD_TOKEN> <ANTHROPIC_KEY> <VIRTUAL_TA_URL> \
 #                           [ED_TOKEN] [ED_COURSE_ID] [COMPOSIO_KEY]
@@ -50,30 +50,30 @@ fi
 sudo systemctl enable --quiet docker
 sudo usermod -aG docker "$USER"
 
-echo "==> Cloning OpenClaw"
-if [[ ! -d "$HOME/openclaw" ]]; then
-  git clone https://github.com/openclaw/openclaw.git "$HOME/openclaw"
+echo "==> Cloning NanoClaw"
+if [[ ! -d "$HOME/nanoclaw" ]]; then
+  git clone https://github.com/qwibitai/nanoclaw.git "$HOME/nanoclaw"
 else
-  git -C "$HOME/openclaw" pull --rebase
+  git -C "$HOME/nanoclaw" pull --rebase
 fi
 
 echo "==> Patching onboard for non-interactive setup"
-SETUP_SCRIPT="$HOME/openclaw/scripts/docker/setup.sh"
+SETUP_SCRIPT="$HOME/nanoclaw/scripts/docker/setup.sh"
 sed -i 's|run_prestart_cli onboard --mode local --no-install-daemon|run_prestart_cli onboard --mode local --no-install-daemon --non-interactive --accept-risk --flow quickstart --auth-choice anthropic-api-key --anthropic-api-key '"$ANTHROPIC_KEY"' --secret-input-mode plaintext --skip-channels --skip-skills --skip-search --skip-health|' "$SETUP_SCRIPT"
 
-echo "==> Running OpenClaw Docker setup"
-sg docker -c "cd $HOME/openclaw && OPENCLAW_GATEWAY_BIND=loopback ./docker-setup.sh"
+echo "==> Running NanoClaw Docker setup"
+sg docker -c "cd $HOME/nanoclaw && NANOCLAW_GATEWAY_BIND=loopback ./docker-setup.sh"
 
 echo "==> Restoring original setup script"
-git -C "$HOME/openclaw" checkout -- scripts/docker/setup.sh
+git -C "$HOME/nanoclaw" checkout -- scripts/docker/setup.sh
 
 echo "==> Adding Discord channel"
-sg docker -c "cd $HOME/openclaw && docker compose -f docker-compose.yml run --rm openclaw-cli channels add --channel discord --token $DISCORD_TOKEN"
+sg docker -c "cd $HOME/nanoclaw && docker compose -f docker-compose.yml run --rm nanoclaw-cli channels add --channel discord --token $DISCORD_TOKEN"
 
 echo "==> Setting up student-assistant MCP servers"
 # Clone student-assistant repo for custom MCP servers
 if [[ ! -d "$HOME/student-assistant" ]]; then
-  git clone https://github.com/vinamra/openclaw-student-assistant.git "$HOME/student-assistant"
+  git clone https://github.com/vinamra57/nanoclaw-student-assistant.git "$HOME/student-assistant"
 else
   git -C "$HOME/student-assistant" pull --rebase
 fi
@@ -101,5 +101,5 @@ echo ""
 echo "The Discord bot is online. To pair:"
 echo "  1. DM the bot on Discord"
 echo "  2. It replies with a pairing code"
-echo "  3. Run: cd ~/openclaw && docker compose -f docker-compose.yml run --rm openclaw-cli pairing approve discord <CODE>"
+echo "  3. Run: cd ~/nanoclaw && docker compose -f docker-compose.yml run --rm nanoclaw-cli pairing approve discord <CODE>"
 echo ""

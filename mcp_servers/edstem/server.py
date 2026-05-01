@@ -2,7 +2,7 @@
 Personal EdStem MCP server.
 
 Exposes Ed Discussion tools scoped to the student's own API token.
-Runs as a standalone MCP server that OpenClaw connects to via mcporter.
+Runs as a standalone MCP server that NanoClaw connects to via mcporter.
 
 Usage:
     ED_API_TOKEN=<token> ED_COURSE_ID=<id> python -m mcp_servers.edstem.server

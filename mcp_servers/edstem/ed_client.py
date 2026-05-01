@@ -16,6 +16,30 @@ logger = logging.getLogger(__name__)
 ED_API_BASE = "https://us.edstem.org/api"
 
 
+def _thread_query_params(
+    *,
+    limit: int,
+    sort: str = "new",
+    search: str | None = None,
+    filter_: str | None = None,
+) -> dict[str, str]:
+    """Build a query-param dict with str values only.
+
+    `requests.Session.get(params=...)` accepts a mixed-typed mapping at
+    runtime (it stringifies everything), but its declared type rejects
+    `dict[str, int | str]` because the Union collapses to `dict[str,
+    object]`. Casting all values to str up front keeps mypy happy without
+    changing the wire-level behaviour — Ed expects strings for these
+    params anyway.
+    """
+    params: dict[str, str] = {"limit": str(limit), "sort": sort}
+    if search is not None:
+        params["search"] = search
+    if filter_ is not None:
+        params["filter"] = filter_
+    return params
+
+
 class EdClient:
     """Client for the Ed Discussion API.
 
@@ -35,9 +59,7 @@ class EdClient:
     def _get_session(self) -> requests.Session:
         if self._session is None:
             self._session = requests.Session()
-            self._session.headers.update(
-                {"Authorization": f"Bearer {self.api_token}"}
-            )
+            self._session.headers.update({"Authorization": f"Bearer {self.api_token}"})
         return self._session
 
     @staticmethod
@@ -78,7 +100,7 @@ class EdClient:
             session = self._get_session()
             resp = session.get(
                 f"{ED_API_BASE}/courses/{self.course_id}/threads",
-                params={"limit": min(limit, 100), "sort": "new"},
+                params=_thread_query_params(limit=min(limit, 100)),
                 timeout=15,
             )
             resp.raise_for_status()
@@ -100,15 +122,13 @@ class EdClient:
             session = self._get_session()
             resp = session.get(
                 f"{ED_API_BASE}/courses/{self.course_id}/threads",
-                params={"limit": 100, "sort": "new"},
+                params=_thread_query_params(limit=100),
                 timeout=15,
             )
             resp.raise_for_status()
             threads = resp.json().get("threads", [])
             return [
-                self._thread_to_dict(t)
-                for t in threads
-                if t.get("is_pinned", False)
+                self._thread_to_dict(t) for t in threads if t.get("is_pinned", False)
             ]
         except Exception as e:
             logger.warning(f"Failed to fetch Ed pinned threads: {e}")
@@ -122,7 +142,7 @@ class EdClient:
             session = self._get_session()
             resp = session.get(
                 f"{ED_API_BASE}/courses/{self.course_id}/threads",
-                params={"limit": min(limit, 100), "sort": "new", "search": query},
+                params=_thread_query_params(limit=min(limit, 100), search=query),
                 timeout=15,
             )
             if resp.ok:
@@ -167,7 +187,7 @@ class EdClient:
             session = self._get_session()
             resp = session.get(
                 f"{ED_API_BASE}/courses/{self.course_id}/threads",
-                params={"limit": min(limit, 100), "sort": "new", "filter": "unread"},
+                params=_thread_query_params(limit=min(limit, 100), filter_="unread"),
                 timeout=15,
             )
             if resp.ok:

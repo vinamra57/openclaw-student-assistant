@@ -1,17 +1,27 @@
 [project]
-name = "openclaw-student-assistant"
+name = "nanoclaw-student-assistant"
 version = "0.1.0"
-description = "Personal AI agent for university students — OpenClaw + ChatCSE integration"
+description = "Personal AI agent for university students — NanoClaw + ChatCSE integration"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.13"
 dependencies = [
     "mcp[cli]>=1.0",
     "httpx>=0.27",
-    "edapi>=0.3",
+    # edapi is unofficial; latest published is 0.1.0. Pin a floor that
+    # exists rather than aspirational 0.3.
+    "edapi>=0.1",
     "pydantic>=2.10",
     "pydantic-settings>=2.0",
 ]
+
+# Setuptools auto-discovery sees `config/`, `mcp_servers/`, and
+# `provisioning/` as candidate top-level packages and refuses to pick
+# one (multi-top-level layout is ambiguous). The Python code lives only
+# under `mcp_servers/`; the others are config/scripts. Pin the package
+# list explicitly so `pip install -e .` works in CI.
+[tool.setuptools.packages.find]
+include = ["mcp_servers*"]
 
 [project.optional-dependencies]
 dev = [

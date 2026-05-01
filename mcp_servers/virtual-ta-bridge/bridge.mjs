@@ -12,12 +12,20 @@
  * The bridge exposes the same tools as the remote server to the agent.
  */
 
+// Bypass OneCLI proxy for the Virtual TA connection — the proxy intercepts
+// all HTTP traffic for credential injection, but the Virtual TA is an
+// internal service that doesn't need it.
+delete process.env.HTTP_PROXY;
+delete process.env.HTTPS_PROXY;
+delete process.env.http_proxy;
+delete process.env.https_proxy;
+
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
-const VIRTUAL_TA_URL = process.env.VIRTUAL_TA_URL || 'https://backend-production-45b0.up.railway.app';
+const VIRTUAL_TA_URL = process.env.VIRTUAL_TA_URL || 'http://host.docker.internal:8001';
 const MCP_ENDPOINT = `${VIRTUAL_TA_URL}/mcp`;
 
 // Remote client — connects to the Virtual TA HTTP MCP endpoint

@@ -1,7 +1,7 @@
-// OpenClaw configuration for the Student Assistant
-// Copy to ~/.openclaw/openclaw.json and fill in values.
+// NanoClaw configuration for the Student Assistant
+// Copy to ~/.nanoclaw/nanoclaw.json and fill in values.
 //
-// Docs: https://github.com/openclaw/openclaw
+// Docs: https://github.com/qwibitai/nanoclaw
 {
   // ─── Model Provider ───
   "provider": {
@@ -22,7 +22,7 @@
   "agents": {
     "default": {
       "model": "claude-sonnet-4-6",
-      "persona": "~/.openclaw/SOUL.md",
+      "persona": "~/.nanoclaw/SOUL.md",
       "tools": {
         // MCP tools are registered via mcporter — see mcporter.example.json5
         "allowAll": true

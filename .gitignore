@@ -40,7 +40,10 @@ token*.json
 .DS_Store
 Thumbs.db
 
-# OpenClaw runtime
+# NanoClaw runtime
+.nanoclaw/
+# (legacy entry kept so worktrees from before the rename don't accidentally
+# commit a stale .openclaw/ dir)
 .openclaw/
 
 # Node (for mcporter/tools)

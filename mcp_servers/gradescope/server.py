@@ -49,7 +49,9 @@ def get_gradescope_courses() -> str:
 
         lines = [f"Found {len(courses)} course(s):\n"]
         for course in courses:
-            lines.append(f"- {course.get('name', 'Unknown')} (ID: {course.get('id', '?')})")
+            lines.append(
+                f"- {course.get('name', 'Unknown')} (ID: {course.get('id', '?')})"
+            )
         return "\n".join(lines)
 
     except ImportError:

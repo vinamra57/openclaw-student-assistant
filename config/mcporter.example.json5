@@ -1,5 +1,5 @@
 // mcporter configuration — MCP server connections for the student agent.
-// mcporter is OpenClaw's bridge to MCP servers.
+// mcporter is NanoClaw's bridge to MCP servers.
 //
 // Each entry defines an MCP server the agent can call as tools.
 // Docs: https://github.com/steipete/mcporter

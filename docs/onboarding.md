@@ -31,7 +31,7 @@ cd provisioning/
   --project my-project-123 \
   --zone us-west1-c \
   --service-account 123456-compute@developer.gserviceaccount.com \
-  --vm-name openclaw-alice \
+  --vm-name nanoclaw-alice \
   --discord-token "MTQ4OD..." \
   --anthropic-key "sk-ant-..." \
   --virtual-ta-url "http://<virtual-ta-host>:8000"
@@ -44,8 +44,8 @@ cd provisioning/
 3. Approve the pairing:
 
 ```bash
-gcloud compute ssh openclaw-alice --project=my-project-123 --zone=us-west1-c
-cd ~/openclaw && docker compose -f docker-compose.yml run --rm openclaw-cli pairing approve discord <CODE>
+gcloud compute ssh nanoclaw-alice --project=my-project-123 --zone=us-west1-c
+cd ~/nanoclaw && docker compose -f docker-compose.yml run --rm nanoclaw-cli pairing approve discord <CODE>
 ```
 
 ---
