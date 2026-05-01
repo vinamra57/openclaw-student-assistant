@@ -38,6 +38,7 @@ sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
+# shellcheck source=/dev/null
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
@@ -80,6 +81,7 @@ fi
 
 # Create Python venv for MCP servers
 python3 -m venv "$HOME/student-assistant/.venv"
+# shellcheck source=/dev/null
 source "$HOME/student-assistant/.venv/bin/activate"
 pip install -e "$HOME/student-assistant"
 deactivate

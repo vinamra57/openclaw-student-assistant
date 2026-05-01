@@ -29,6 +29,10 @@ dev = [
     "pytest-asyncio>=0.24",
     "ruff>=0.15",
     "mypy>=1.20",
+    # Stubs for third-party libs we type-check against. Without these
+    # mypy emits `import-untyped` even when ignore_missing_imports is on,
+    # for libs whose maintainers ship stubs separately.
+    "types-requests>=2.31",
 ]
 gradescope = [
     "gradescopeapi>=0.2",
