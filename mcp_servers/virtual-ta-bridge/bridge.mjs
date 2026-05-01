@@ -24,6 +24,10 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+import {
+  CallToolRequestSchema,
+  ListToolsRequestSchema,
+} from '@modelcontextprotocol/sdk/types.js';
 
 const VIRTUAL_TA_URL = process.env.VIRTUAL_TA_URL || 'http://host.docker.internal:8001';
 const MCP_ENDPOINT = `${VIRTUAL_TA_URL}/mcp`;
@@ -65,12 +69,12 @@ async function init() {
   }
 
   // Register tools/list handler
-  localServer.setRequestHandler({ method: 'tools/list' }, async () => {
+  localServer.setRequestHandler(ListToolsRequestSchema, async () => {
     return { tools: remoteTools };
   });
 
   // Register tools/call handler — proxy to remote
-  localServer.setRequestHandler({ method: 'tools/call' }, async (request) => {
+  localServer.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
     try {
       const result = await remoteClient.callTool({ name, arguments: args });
